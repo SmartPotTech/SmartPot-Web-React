@@ -10,7 +10,10 @@ equipo: SmartPotTech
 proyecto: smartpot.app
 -->
 
-# SmartPot-Web
+# SmartPot-Web-React (Deprecado)
+
+> [!WARNING]
+> **Componente Legado (Stack A)**: Este componente ha sido reemplazado en producción por la PWA canónica en SolidJS 1.9 + Bun ([`SmartPot-Web`](https://github.com/SmartPotTech/SmartPot-Web)). Este documento describe la implementación original en React 19 como registro histórico.
 
 ## Ficha del documento
 

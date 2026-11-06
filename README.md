@@ -1,10 +1,15 @@
-# SmartPot-Web
+# SmartPot-Web-React (Deprecated / Deprecado)
+
+> [!WARNING]
+> **Deprecated / Deprecado (Legacy Stack A)**  
+> **English:** This repository contains the legacy Stack A (v1.0) Progressive Web App implemented in React 19 and Vite with pnpm. It has been **deprecated and superseded in production** by the canonical modern Stack B PWA: [**`SmartPot-Web`**](https://github.com/SmartPotTech/SmartPot-Web) (SolidJS 1.9 + Bun + Vite, with live SSE, deep dark mode, and reactive i18n). Preserved solely for historical reference.  
+> **Español:** Este repositorio contiene la implementación legada del Stack A (v1.0) de la PWA desarrollada en React 19 y Vite con pnpm. Ha sido **deprecada y sustituida en producción** por la PWA canónica del Stack B: [**`SmartPot-Web`**](https://github.com/SmartPotTech/SmartPot-Web) (SolidJS 1.9 + Bun + Vite, con SSE en vivo, modo oscuro profundo e i18n reactivo). Conservada exclusivamente como referencia histórica.
 
 ## Estado del Proyecto
 
-[![Node.js CI](https://github.com/SmartPotTech/SmartPot-Web/actions/workflows/node.js.yml/badge.svg)](https://github.com/SmartPotTech/SmartPot-Web/actions/workflows/node.js.yml)
-[![CodeQL Advanced](https://github.com/SmartPotTech/SmartPot-Web/actions/workflows/codeql.yml/badge.svg)](https://github.com/SmartPotTech/SmartPot-Web/actions/workflows/codeql.yml)
-[![Publish Docker Images](https://github.com/SmartPotTech/SmartPot-Web/actions/workflows/packaging.yml/badge.svg)](https://github.com/SmartPotTech/SmartPot-Web/actions/workflows/packaging.yml)
+[![Node.js CI](https://github.com/SmartPotTech/SmartPot-Web-React/actions/workflows/node.js.yml/badge.svg)](https://github.com/SmartPotTech/SmartPot-Web-React/actions/workflows/node.js.yml)
+[![CodeQL Advanced](https://github.com/SmartPotTech/SmartPot-Web-React/actions/workflows/codeql.yml/badge.svg)](https://github.com/SmartPotTech/SmartPot-Web-React/actions/workflows/codeql.yml)
+[![Publish Docker Images](https://github.com/SmartPotTech/SmartPot-Web-React/actions/workflows/packaging.yml/badge.svg)](https://github.com/SmartPotTech/SmartPot-Web-React/actions/workflows/packaging.yml)
 
 ## Descripción
 
