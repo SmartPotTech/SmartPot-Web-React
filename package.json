@@ -2,7 +2,7 @@
   "name": "smartpot-web",
   "private": true,
   "version": "2.0.0",
-  "description": "PWA de SmartPot para monitorear y automatizar cultivos hidropónicos",
+  "description": "PWA de SmartPot para monitorear y automatizar cultivos hidrop\u00f3nicos",
   "type": "module",
   "scripts": {
     "dev": "vite",
