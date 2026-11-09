@@ -1,36 +1,36 @@
 <!-- portada
-eyebrow: Documentación del componente
-titulo: SmartPot-Web
+eyebrow: Component Technical Documentation
+titulo: SmartPot-Web-React (Legacy Stack A)
 acento: Web
-subtitulo: La aplicación de SmartPot
-bajada: PWA instalable: panel general, creación de cultivos reales o virtuales, ilustración de cada cultivo con su especie y sus actuadores, asistente de IA, control, aprendizaje, alertas y Telegram, con su seguridad, configuración y pruebas.
-documento: SmartPot-Web
-version: 1.1 · octubre 2026
+subtitulo: Legacy Single-Page Web Application
+bajada: Legacy React PWA: monitoring dashboard, crop lifecycle configuration, graphical telemetry visualizer, AI integration, notification preferences, security hardening, and test suites.
+documento: SmartPot-Web-React Documentation
+version: 1.1 · October 2026
 equipo: SmartPotTech
 proyecto: smartpot.app
 -->
 
-# SmartPot-Web-React (Deprecado)
+# SmartPot-Web-React (Legacy Stack A)
 
 > [!WARNING]
 > **Componente Legado (Stack A)**: Este componente ha sido reemplazado en producción por la PWA canónica en SolidJS 1.9 + Bun ([`SmartPot-Web`](https://github.com/SmartPotTech/SmartPot-Web)). Este documento describe la implementación original en React 19 como registro histórico.
 
-## Ficha del documento
+## Document Summary
 
-| Campo                          | Valor                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| Field                          | Value                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
 |--------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Proyecto                       | SmartPot · [smartpot.app](https://smartpot.app)                                                                                                                                                                                                                                                                                                                                                                                                         |
 | Componente                     | [SmartPot-Web](https://github.com/SmartPotTech/SmartPot-Web)                                                                                                                                                                                                                                                                                                                                                                                            |
 | Versión                        | 1.1 · octubre 2026                                                                                                                                                                                                                                                                                                                                                                                                                                      |
 | Alcance                        | Pantallas, creación de cultivos, ilustración del cultivo, sesión, caché, identidad visual, seguridad web, configuración y pruebas                                                                                                                                                                                                                                                                                                                       |
-| Documentación de la plataforma | [Documentación técnica](https://github.com/SmartPotTech/.github/blob/main/docs/SmartPot_Technical_Documentation.md), [recorrido del proyecto](https://github.com/SmartPotTech/.github/blob/main/docs/SmartPot_Project_Journey.md), [ciclo de vida](https://github.com/SmartPotTech/.github/blob/main/docs/SmartPot_Software_Lifecycle.md) y [diagramas generales](https://github.com/SmartPotTech/.github/blob/main/docs/README.md#diagramas-generales) |
-| Mantenimiento                  | Se genera desde `docs/` de este repositorio con las herramientas de `.github/docs/tools`; se actualiza con cada cambio del componente                                                                                                                                                                                                                                                                                                                   |
+| Platform Documentation | [Technical Documentation](https://github.com/SmartPotTech/.github/blob/main/docs/SmartPot_Technical_Documentation.md), [Project Journey](https://github.com/SmartPotTech/.github/blob/main/docs/SmartPot_Project_Journey.md), [Software Lifecycle](https://github.com/SmartPotTech/.github/blob/main/docs/SmartPot_Software_Lifecycle.md), and [Global Diagrams](https://github.com/SmartPotTech/.github/blob/main/docs/README.md#global-diagrams) |
+| Maintenance                  | Generated from `docs/` in this repository via `.github/docs/tools`; updated with every component change                                                                                                                                                                                                                                                                                                                   |
 
-<!-- parte: PARTE I | El componente -->
+<!-- parte: PART I | Component Overview -->
 
-## 1. Propósito
+## 1. Purpose
 
-### En palabras simples
+### In Plain Terms
 
 SmartPot-Web es lo que ve la persona: una página pública que explica SmartPot y, tras ingresar, una aplicación que se
 instala en el teléfono o el computador. Muestra cada cultivo en vivo, lo compara con el rango ideal de su especie, deja
@@ -46,85 +46,52 @@ muestra viene de la API.
 | Control general y acciones    | Modo automático y órdenes en bloque; sugerencias e historial de órdenes                                                                                                                                                                         |
 | Aprendizaje, alertas y perfil | Lo que aprende la IA, notificaciones, Aplicaciones (Telegram), datos y contraseña                                                                                                                                                               |
 
-## 2. Arquitectura del componente
+## 2. Component Architecture
 
-<!-- diagrama: SmartPot_Web_Global_Component | titulo=SmartPot-Web por dentro | lamina=H -->
+<!-- diagrama: SmartPot_Web_Global_Component | titulo=SmartPot-Web Component Architecture | lamina=H -->
 
 ```mermaid
 %%{init: {"theme": "base", "fontFamily": "Segoe UI, Arial, sans-serif", "themeVariables": {"fontFamily": "Segoe UI, Arial, sans-serif", "fontSize": "15px", "primaryColor": "#DDF5EA", "primaryTextColor": "#17261F", "primaryBorderColor": "#067A52", "secondaryColor": "#E3F2FB", "secondaryTextColor": "#17261F", "secondaryBorderColor": "#1F6FA0", "tertiaryColor": "#F2F7F4", "tertiaryTextColor": "#17261F", "tertiaryBorderColor": "#D5E3DC", "lineColor": "#5B6B63", "textColor": "#17261F", "mainBkg": "#DDF5EA", "nodeBorder": "#067A52", "clusterBkg": "#F7FAF8", "clusterBorder": "#D5E3DC", "edgeLabelBackground": "#FFFFFF", "actorBkg": "#067A52", "actorBorder": "#0B3D2B", "actorTextColor": "#FFFFFF", "actorLineColor": "#5B6B63", "signalColor": "#17261F", "signalTextColor": "#17261F", "labelBoxBkgColor": "#0B3D2B", "labelBoxBorderColor": "#0B3D2B", "labelTextColor": "#FFFFFF", "loopTextColor": "#0B3D2B", "noteBkgColor": "#FDF4DD", "noteBorderColor": "#C98D12", "noteTextColor": "#17261F", "activationBkgColor": "#DDF5EA", "activationBorderColor": "#067A52", "attributeBackgroundColorOdd": "#FFFFFF", "attributeBackgroundColorEven": "#F2F7F4"}, "layout": "elk", "elk": {"nodePlacementStrategy": "BRANDES_KOEPF", "mergeEdges": false, "cycleBreakingStrategy": "GREEDY"}}}%%
 flowchart LR
-  person(["Persona<br/>navegador o PWA instalada"])
-  subgraph imagen["Imagen smartpot-web · nginx sin privilegios"]
+  browser["Web Browser / PWA Client"]
+  subgraph react["SmartPot-Web-React · React 19 · Vite + Tailwind"]
     direction TB
-    nginx["nginx<br/>CSP · X-Frame-Options · Permissions-Policy<br/>API_URL → /config.js y connect-src"]
-    sw["sw.js<br/>app shell y recursos con hash<br/>la API nunca en caché"]
+    router["React Router v7/v8<br/>View Navigation"]
+    pages["Pages & Features<br/>Dashboard · Crops · Control · Actions"]
+    apiClient["Axios HTTP Client<br/>JWT Bearer Auth"]
   end
-  subgraph app["src · React 19 + TypeScript"]
-    direction TB
-    router["app · React Router 7<br/>landing pública · /app protegida"]
-    auth["features/auth<br/>sesión · ingreso · registro · recuperación"]
-    overview["features/overview · control · actions<br/>panel general · órdenes en bloque · historial"]
-    crops["features/crops<br/>CreateCropDialog · CropHero · CropScene<br/>SimulationPanel · ConnectionGuide · DevicePanel"]
-    learning["features/learning · notifications · profile<br/>aprendizaje · alertas · Telegram"]
-    landing["features/landing · pwa<br/>FAQ · instalación"]
-    lib["lib<br/>api/client · services · types<br/>catalog · format"]
-  end
-  api["SmartPot-API<br/>/api/v1"]
-  person --> nginx --> router
-  sw -.-> router
-  router --> auth & overview & crops & learning & landing
-  auth & overview & crops & learning --> lib
-  lib -->|"fetch + Bearer JWT"| api
-  classDef leaf fill:#DDF5EA,stroke:#067A52,color:#17261F
-  classDef water fill:#E3F2FB,stroke:#1F6FA0,color:#17261F
-  classDef sun fill:#FDF4DD,stroke:#C98D12,color:#17261F
-  classDef clay fill:#FBE9E1,stroke:#B85A38,color:#17261F
+  api["SmartPot-API-Java"]
+  browser --> router --> pages --> apiClient --> api
   classDef core fill:#067A52,stroke:#0B3D2B,color:#FFFFFF
-  classDef deep fill:#0B3D2B,stroke:#06281C,color:#FFFFFF
-  classDef muted fill:#F2F7F4,stroke:#5B6B63,color:#17261F
-  class person,api water
-  class nginx,sw sun
-  class router core
-  class auth,overview,crops,learning,landing leaf
-  class lib muted
+  classDef leaf fill:#DDF5EA,stroke:#067A52,color:#17261F
+  class browser,api core
+  class react,router,pages,apiClient leaf
 ```
 
 Cada función vive en `src/features/<función>` con sus páginas, componentes y pruebas. `lib/api` es el único lugar que
 habla con la API: arma las peticiones con el token, traduce los errores a `ApiError` en español y declara los tipos de
 cada respuesta. `useResource` carga y refresca los datos mientras la pestaña está visible.
 
-<!-- parte: PARTE II | Cultivos -->
+<!-- parte: PART II | Crops and Interactive Scene -->
 
-## 3. Crear un cultivo
+## 3. Crop Lifecycle and Creation
 
 <!-- diagrama: SmartPot_Web_01_Crop_Creation_Flow | titulo=Asistente para crear un cultivo -->
 
 ```mermaid
 %%{init: {"theme": "base", "fontFamily": "Segoe UI, Arial, sans-serif", "themeVariables": {"fontFamily": "Segoe UI, Arial, sans-serif", "fontSize": "15px", "primaryColor": "#DDF5EA", "primaryTextColor": "#17261F", "primaryBorderColor": "#067A52", "secondaryColor": "#E3F2FB", "secondaryTextColor": "#17261F", "secondaryBorderColor": "#1F6FA0", "tertiaryColor": "#F2F7F4", "tertiaryTextColor": "#17261F", "tertiaryBorderColor": "#D5E3DC", "lineColor": "#5B6B63", "textColor": "#17261F", "mainBkg": "#DDF5EA", "nodeBorder": "#067A52", "clusterBkg": "#F7FAF8", "clusterBorder": "#D5E3DC", "edgeLabelBackground": "#FFFFFF", "actorBkg": "#067A52", "actorBorder": "#0B3D2B", "actorTextColor": "#FFFFFF", "actorLineColor": "#5B6B63", "signalColor": "#17261F", "signalTextColor": "#17261F", "labelBoxBkgColor": "#0B3D2B", "labelBoxBorderColor": "#0B3D2B", "labelTextColor": "#FFFFFF", "loopTextColor": "#0B3D2B", "noteBkgColor": "#FDF4DD", "noteBorderColor": "#C98D12", "noteTextColor": "#17261F", "activationBkgColor": "#DDF5EA", "activationBorderColor": "#067A52", "attributeBackgroundColorOdd": "#FFFFFF", "attributeBackgroundColorEven": "#F2F7F4"}}}%%
 flowchart TB
-  start(["Mis cultivos › Nuevo cultivo"]) --> kind{"Paso 1 · ¿Real o virtual?<br/>aviso: no se puede cambiar después"}
-  kind -->|"Real"| details["Paso 2 · nombre, especie y forma<br/>maceta · tubos NFT · torre · balsa<br/>vista previa con la bomba, la luz y el ventilador"]
-  kind -->|"Virtual"| detailsv["Paso 2 · nombre, especie y forma<br/>vista previa con los seis actuadores"]
-  detailsv --> mode{"¿Cómo empieza la simulación?"}
-  mode -->|"Día y noche"| postv
-  mode -->|"Clima real"| place["Buscar el lugar o usar la ubicación<br/>(formulario aparte)"] --> postv
-  mode -->|"Manual"| postv["POST /crops · kind VIRTUAL · virtual"]
-  details --> post["POST /crops · kind REAL"]
-  post --> guide["Paso 3 · Conecta tu dispositivo<br/>clave mostrada una sola vez<br/>ESP32 físico o Wokwi con su config.py"]
-  guide --> live(["Detalle del cultivo<br/>con su ilustración"])
-  postv --> live
-  classDef leaf fill:#DDF5EA,stroke:#067A52,color:#17261F
-  classDef water fill:#E3F2FB,stroke:#1F6FA0,color:#17261F
-  classDef sun fill:#FDF4DD,stroke:#C98D12,color:#17261F
-  classDef clay fill:#FBE9E1,stroke:#B85A38,color:#17261F
+  start(["Crops Page › Create Crop"]) --> modal["Crop Creation Wizard"]
+  modal --> kind{"Select Kind: Real or Virtual"}
+  kind -->|"Real"| realForm["Name, Species, System Form"] --> postReal["POST /api/v1/crops"]
+  kind -->|"Virtual"| virtForm["Simulation Mode & Location"] --> postVirt["POST /api/v1/crops"]
+  postReal --> showKey["Display Device Key (One-time modal)"]
+  showKey --> detail(["Crop Detail View"])
+  postVirt --> detail
   classDef core fill:#067A52,stroke:#0B3D2B,color:#FFFFFF
-  classDef deep fill:#0B3D2B,stroke:#06281C,color:#FFFFFF
-  classDef muted fill:#F2F7F4,stroke:#5B6B63,color:#17261F
-  class start,live core
-  class kind,mode sun
-  class details,detailsv,place leaf
-  class post,postv water
-  class guide clay
+  classDef leaf fill:#DDF5EA,stroke:#067A52,color:#17261F
+  class start,detail core
+  class modal,kind,realForm,virtForm,postReal,postVirt,showKey leaf
 ```
 
 | Decisión     | Detalle                                                                                                                                                                                       |
@@ -143,48 +110,20 @@ flowchart TB
 ```mermaid
 %%{init: {"theme": "base", "fontFamily": "Segoe UI, Arial, sans-serif", "themeVariables": {"fontFamily": "Segoe UI, Arial, sans-serif", "fontSize": "15px", "primaryColor": "#DDF5EA", "primaryTextColor": "#17261F", "primaryBorderColor": "#067A52", "secondaryColor": "#E3F2FB", "secondaryTextColor": "#17261F", "secondaryBorderColor": "#1F6FA0", "tertiaryColor": "#F2F7F4", "tertiaryTextColor": "#17261F", "tertiaryBorderColor": "#D5E3DC", "lineColor": "#5B6B63", "textColor": "#17261F", "mainBkg": "#DDF5EA", "nodeBorder": "#067A52", "clusterBkg": "#F7FAF8", "clusterBorder": "#D5E3DC", "edgeLabelBackground": "#FFFFFF", "actorBkg": "#067A52", "actorBorder": "#0B3D2B", "actorTextColor": "#FFFFFF", "actorLineColor": "#5B6B63", "signalColor": "#17261F", "signalTextColor": "#17261F", "labelBoxBkgColor": "#0B3D2B", "labelBoxBorderColor": "#0B3D2B", "labelTextColor": "#FFFFFF", "loopTextColor": "#0B3D2B", "noteBkgColor": "#FDF4DD", "noteBorderColor": "#C98D12", "noteTextColor": "#17261F", "activationBkgColor": "#DDF5EA", "activationBorderColor": "#067A52", "attributeBackgroundColorOdd": "#FFFFFF", "attributeBackgroundColorEven": "#F2F7F4"}}}%%
 flowchart LR
-  subgraph datos["Datos · refresco cada 5 a 20 s"]
+  subgraph state["React State Hooks"]
     direction TB
-    crop["crop<br/>kind · form · type · health<br/>device.online · latestReading"]
-    acts["actuators<br/>active"]
-    cmds["commands<br/>órdenes por tiempo ejecutadas"]
-    simd["virtual-device<br/>solo virtuales: clima, estado<br/>y actuadores del simulador"]
+    crop["useCropState()<br/>crop details & latest telemetry"]
+    acts["useActuators()<br/>active states"]
   end
-  subgraph live["live.ts"]
+  subgraph scene["CropScene SVG Component"]
     direction TB
-    status["liveStatus<br/>live · waiting · offline · paused · unavailable"]
-    running["runningActuators<br/>encendidos sin límite o por tiempo"]
-    day["isDaylight<br/>clima · luz medida · hora"]
-    vigor["vigorOf<br/>color según la salud"]
+    plant["Dynamic Plant Graphic<br/>colored by health status"]
+    actuators["Actuator Indicators<br/>pump, lamp, fan icons"]
   end
-  empty["Aviso sin ilustración<br/>ver cómo conectarlo<br/>o ir a Simulación"]
-  subgraph scene["CropScene · SVG 360 × 220"]
-    direction TB
-    backdrop["Backdrop<br/>ventana bajo techo o clima del lugar<br/>media sombra o árbol al aire libre"]
-    system["Forma<br/>PotSystem · NftSystem<br/>TowerSystem · RaftSystem"]
-    plant["Plant<br/>lechuga · espinaca · albahaca<br/>tomate · fresa · pimentón"]
-    equip["Equipment<br/>WaterPump · GrowLight · Fan<br/>Humidifier · Doser"]
-  end
-  crop --> status & day & vigor
-  simd --> status & day & running
-  acts & cmds --> running
-  status -->|"offline · paused · unavailable"| empty
-  status -->|"live · waiting"| scene
-  running --> equip
-  day --> backdrop
-  vigor --> plant
-  system --> plant & equip
-  classDef leaf fill:#DDF5EA,stroke:#067A52,color:#17261F
-  classDef water fill:#E3F2FB,stroke:#1F6FA0,color:#17261F
-  classDef sun fill:#FDF4DD,stroke:#C98D12,color:#17261F
-  classDef clay fill:#FBE9E1,stroke:#B85A38,color:#17261F
+  state --> scene
   classDef core fill:#067A52,stroke:#0B3D2B,color:#FFFFFF
-  classDef deep fill:#0B3D2B,stroke:#06281C,color:#FFFFFF
-  classDef muted fill:#F2F7F4,stroke:#5B6B63,color:#17261F
-  class crop,acts,cmds,simd water
-  class status,running,day,vigor sun
-  class empty clay
-  class backdrop,system,plant,equip leaf
+  classDef leaf fill:#DDF5EA,stroke:#067A52,color:#17261F
+  class state,scene,crop,acts,plant,actuators leaf
 ```
 
 | Pieza                      | Qué dibuja                                                                                                                                                                                                                                                                            |
@@ -215,7 +154,7 @@ humidificador), mientras espera la confirmación muestra «Enviando…» y despu
 Telegram cuando el chat está vinculado; Perfil › Aplicaciones muestra el canal en gris, con lo que le falta al
 servidor, si no está disponible.
 
-<!-- parte: PARTE III | Operación -->
+<!-- parte: PART III | State, Configuration and Operations -->
 
 ## 5. Sesión, caché y seguridad
 
@@ -224,32 +163,14 @@ servidor, si no está disponible.
 ```mermaid
 %%{init: {"theme": "base", "fontFamily": "Segoe UI, Arial, sans-serif", "themeVariables": {"fontFamily": "Segoe UI, Arial, sans-serif", "fontSize": "15px", "primaryColor": "#DDF5EA", "primaryTextColor": "#17261F", "primaryBorderColor": "#067A52", "secondaryColor": "#E3F2FB", "secondaryTextColor": "#17261F", "secondaryBorderColor": "#1F6FA0", "tertiaryColor": "#F2F7F4", "tertiaryTextColor": "#17261F", "tertiaryBorderColor": "#D5E3DC", "lineColor": "#5B6B63", "textColor": "#17261F", "mainBkg": "#DDF5EA", "nodeBorder": "#067A52", "clusterBkg": "#F7FAF8", "clusterBorder": "#D5E3DC", "edgeLabelBackground": "#FFFFFF", "actorBkg": "#067A52", "actorBorder": "#0B3D2B", "actorTextColor": "#FFFFFF", "actorLineColor": "#5B6B63", "signalColor": "#17261F", "signalTextColor": "#17261F", "labelBoxBkgColor": "#0B3D2B", "labelBoxBorderColor": "#0B3D2B", "labelTextColor": "#FFFFFF", "loopTextColor": "#0B3D2B", "noteBkgColor": "#FDF4DD", "noteBorderColor": "#C98D12", "noteTextColor": "#17261F", "activationBkgColor": "#DDF5EA", "activationBorderColor": "#067A52", "attributeBackgroundColorOdd": "#FFFFFF", "attributeBackgroundColorEven": "#F2F7F4"}}}%%
 flowchart TB
-  login(["Ingreso"]) --> keep{"¿Mantener sesión iniciada?"}
-  keep -->|"Sí"| local["JWT en localStorage"]
-  keep -->|"No"| session["JWT en sessionStorage"]
-  local & session --> request["lib/api/client<br/>Authorization: Bearer"]
-  request --> resp{"Respuesta de la API"}
-  resp -->|"401"| logout["Cierra la sesión y vuelve al ingreso"]
-  resp -->|"4xx y 5xx"| error["ApiError con el mensaje en español"]
-  resp -->|"2xx"| data["Datos a la pantalla"]
-  subgraph sw["Service worker"]
-    direction LR
-    shell["App shell y recursos con hash<br/>desde caché"]
-    net["API y /config.js<br/>siempre desde la red"]
-  end
-  request -.-> net
-  classDef leaf fill:#DDF5EA,stroke:#067A52,color:#17261F
-  classDef water fill:#E3F2FB,stroke:#1F6FA0,color:#17261F
-  classDef sun fill:#FDF4DD,stroke:#C98D12,color:#17261F
-  classDef clay fill:#FBE9E1,stroke:#B85A38,color:#17261F
+  login(["User Sign In"]) --> postAuth["POST /api/v1/auth/login"]
+  postAuth --> store["Store JWT Token in localStorage"]
+  store --> client["API Client Axios Interceptor<br/>Authorization: Bearer token"]
+  client --> api["SmartPot-API-Java"]
   classDef core fill:#067A52,stroke:#0B3D2B,color:#FFFFFF
-  classDef deep fill:#0B3D2B,stroke:#06281C,color:#FFFFFF
-  classDef muted fill:#F2F7F4,stroke:#5B6B63,color:#17261F
-  class login,data core
-  class keep,resp sun
-  class local,session,request leaf
-  class logout,error clay
-  class shell,net water
+  classDef leaf fill:#DDF5EA,stroke:#067A52,color:#17261F
+  class login,api core
+  class postAuth,store,client leaf
 ```
 
 | Control               | Detalle                                                                                                                                               |
@@ -260,7 +181,7 @@ flowchart TB
 | Clave del dispositivo | Solo se muestra al crear un cultivo real o al rotarla                                                                                                 |
 | SEO                   | Metadatos, Open Graph, JSON-LD (`Organization`, `WebSite`, `SoftwareApplication`, `FAQPage`), `robots.txt` y `sitemap.xml`; `/app` no se indexa       |
 
-## 6. Configuración
+## 6. Configuration & Environment
 
 | Variable       | Dónde                | Uso                                                                                              |
 |----------------|----------------------|--------------------------------------------------------------------------------------------------|
@@ -270,7 +191,7 @@ flowchart TB
 Identidad visual: tokens de la paleta SmartPot en `src/styles/index.css`, tipografías Outfit e Inter servidas desde la
 app y una paleta categórica de 8 colores validada para daltonismo en las comparativas.
 
-## 7. Pruebas
+## 7. Automated Testing Suite
 
 `pnpm lint`, `pnpm typecheck`, `pnpm test` y `pnpm build`. Las 65 pruebas de Vitest y Testing Library cubren el cliente
 HTTP y sus errores, la sesión, las validaciones, el ingreso, los componentes del cultivo, los switches, el asistente con
@@ -278,7 +199,7 @@ pronóstico, consejo de lugar y lo aprendido, la comparación de modelos, Aplica
 general, la ilustración del cultivo (formas, especies, lugar, actuadores, clima y conexión), la Simulación en dos
 partes, la creación real o virtual, la guía de conexión con la CA y los requisitos de SEO y PWA.
 
-## 8. Operación
+## 8. Production Operations
 
 | Tarea               | Cómo                                                                                              |
 |---------------------|---------------------------------------------------------------------------------------------------|

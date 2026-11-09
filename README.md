@@ -1,62 +1,24 @@
-# SmartPot-Web-React (Deprecated / Deprecado)
+# SmartPot-Web-React (Legacy Stack A Reference)
 
 > [!WARNING]
-> **Deprecated / Deprecado (Legacy Stack A)**  
-> **English:** This repository contains the legacy Stack A (v1.0) Progressive Web App implemented in React 19 and Vite with pnpm. It has been **deprecated and superseded in production** by the canonical modern Stack B PWA: [**`SmartPot-Web`**](https://github.com/SmartPotTech/SmartPot-Web) (SolidJS 1.9 + Bun + Vite, with live SSE, deep dark mode, and reactive i18n). Preserved solely for historical reference.  
-> **Español:** Este repositorio contiene la implementación legada del Stack A (v1.0) de la PWA desarrollada en React 19 y Vite con pnpm. Ha sido **deprecada y sustituida en producción** por la PWA canónica del Stack B: [**`SmartPot-Web`**](https://github.com/SmartPotTech/SmartPot-Web) (SolidJS 1.9 + Bun + Vite, con SSE en vivo, modo oscuro profundo e i18n reactivo). Conservada exclusivamente como referencia histórica.
+> **Deprecated (Legacy Stack A Reference Implementation)**  
+> This repository contains the legacy Stack A (v1.0) Progressive Web App implemented in React 19 and Vite with pnpm. It has been **deprecated and superseded in production** by the canonical modern Stack B PWA: [**`SmartPot-Web`**](https://github.com/SmartPotTech/SmartPot-Web) (SolidJS 1.9 + Bun + Vite, with live SSE, deep dark mode, HttpOnly cookies, and reactive i18n). Preserved solely for historical reference.
 
-## Estado del Proyecto
+## Project Status
 
 [![Node.js CI](https://github.com/SmartPotTech/SmartPot-Web-React/actions/workflows/node.js.yml/badge.svg)](https://github.com/SmartPotTech/SmartPot-Web-React/actions/workflows/node.js.yml)
-[![CodeQL Advanced](https://github.com/SmartPotTech/SmartPot-Web-React/actions/workflows/codeql.yml/badge.svg)](https://github.com/SmartPotTech/SmartPot-Web-React/actions/workflows/codeql.yml)
 [![Publish Docker Images](https://github.com/SmartPotTech/SmartPot-Web-React/actions/workflows/packaging.yml/badge.svg)](https://github.com/SmartPotTech/SmartPot-Web-React/actions/workflows/packaging.yml)
 
-## Descripción
+## Description
 
-SmartPot-Web es la **aplicación web progresiva (PWA)** de SmartPot, publicada en [smartpot.app](https://smartpot.app).
-Se instala en Android, iOS y escritorio, y permite:
-
-- Ver todos los cultivos juntos en el **panel general**: salud de cada uno, comparación de una variable entre cultivos (
-  6 h, 24 h o 7 días), tabla con la última lectura frente al rango ideal y el análisis del asistente sobre toda la
-  cuenta (problemas compartidos del entorno, grupos con condiciones parecidas y acciones en bloque).
-- Usar el **control general** para activar el modo automático o enviar la misma orden (regar, ventilar, luz) a varios
-  cultivos a la vez.
-- Revisar las **acciones**: las que sugiere el asistente para varios cultivos y el historial de todas las órdenes,
-  filtrado por estado y origen.
-- Crear cultivos **reales** (un ESP32 con el firmware, físico o simulado en Wokwi, con su guía de conexión) o *
-  *virtuales** (los simula SmartPot), de seis especies y cuatro formas: maceta, tubos NFT, torre vertical o balsa
-  flotante, y decir dónde está: bajo techo o al aire libre, cuánto sol recibe y en qué ciudad. El tipo no cambia
-  después; el lugar se edita en Ajustes.
-- Ver cada cultivo **ilustrado** sobre todas sus secciones: su forma y su especie (lechuga, tomate, fresa…) con el color
-  de su salud, en su lugar (una ventana con el cielo de afuera, una malla de media sombra o un árbol) con el clima real
-  y cada actuador encendido o apagado. La ilustración no tiene
-  botones: las órdenes se dan en Control. Si no está conectado, no se ilustra.
-- Ver las lecturas en tiempo real, comparadas con el rango ideal de la especie, e historiales de 6 h, 24 h o 7 días
-  exportables a CSV.
-- Consultar al **asistente de IA** de cada cultivo: índice de salud y de qué variables depende, diagnóstico,
-  conclusiones del sistema experto, predicciones de los modelos, pronóstico de las próximas horas, lo **aprendido de
-  cultivos reales** (estado de operación, lectura habitual o no, riego o calor probables en la próxima hora y sustrato
-  esperado), el consejo de lugar según la luz que pide la especie y acciones sugeridas.
-- Ver en **Aprendizaje** cómo mejora el asistente con cada lectura: calidad de los datos, comparación de modelos con su
-  puntaje frente a la línea base, estados típicos de cada especie y detector de lecturas poco habituales.
-- Controlar la **simulación** de un cultivo virtual en dos partes, como Dispositivo: arriba el estado con Pausar y
-  Reanudar; abajo cómo se simula (clima real del lugar, medidores manuales o el día y la noche de la especie) con
-  «Aplicar cambios».
-- Vincular **Telegram** en Perfil › Aplicaciones (en gris, con su detalle técnico, si el servidor no lo tiene) y elegir
-  en Ajustes qué avisa cada cultivo: al instante o en resúmenes, un resumen diario y los chats con los que se comparte.
-- Encender y apagar con un **switch** la bomba, la luz ultravioleta, el ventilador, el humidificador y los
-  dosificadores, con su duración y su cuenta regresiva, y activar el **modo automático** del agente.
-- Conectar un cultivo real con un `config.py` que ya trae la red, la clave y la CA del broker.
-- Recibir alertas del cultivo, del dispositivo y del asistente.
-
-La página de inicio es pública e indexable; la aplicación vive bajo `/app` y no se indexa.
+SmartPot-Web-React is the original user interface of **SmartPot**: a Progressive Web App (PWA) built with **React 19**, **Vite**, **Tailwind CSS**, and **Lucide Icons** that allowed growers to monitor hydroponic crops in real time, control actuators, simulate virtual crops, and review AI insights.
 
 ## Tecnologías
 
 React 19 · TypeScript 6 · Vite 8 · Tailwind CSS 4 · React Router 7 · Recharts · Lucide · Vitest · Testing Library · pnpm
 11.
 
-## Estructura del Proyecto
+## Project Structure
 
 ```text
 SmartPot-Web/
@@ -151,7 +113,7 @@ docker run -d --name smartpot-web -p 5173:8080 -e API_URL=http://localhost:8091 
   ghcr.io/smartpottech/smartpot-web:latest
 ```
 
-### Requisitos Previos
+### Prerequisites
 
 - Node.js 22 o 24 y pnpm 11 (`corepack enable`)
 - La API de SmartPot en `http://localhost:8091` (el entorno completo está
@@ -219,6 +181,6 @@ completa en una sola imagen ampliable:
 - [Arquitectura completa](https://github.com/SmartPotTech/.github/blob/main/docs/diagrams/SmartPot_Global_01_Architecture.svg):
   dónde vive la PWA dentro de la plataforma
 
-## Licencia
+## License
 
 Este proyecto está bajo la licencia MIT. Consulta el archivo [LICENSE](LICENSE) para más detalles.
